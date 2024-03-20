@@ -119,6 +119,17 @@ public class StudentService {
    * @param studentId Id of a persisted, existing student entity
    */
   public void unassignClassroomOfStudent(long studentId) {
+    Optional<Student> studentOptional = studentRepository.findById(studentId);
 
+    if (studentOptional.isPresent()) {
+      //Retrieve the Student entity from the database using the studentId.
+      Student student = studentOptional.get();
+      //Set the classroom field of the Student entity to null
+      student.setClassroom(null);
+      //Save the updated Student entity back to the database using the studentRepository.
+      studentRepository.save(student);
+    } else {
+      throw new RuntimeException("Student not found");
+    }
   }
 }
